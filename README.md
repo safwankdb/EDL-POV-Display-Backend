@@ -1,6 +1,11 @@
 # EDL-POV-Display-Backend
 This repository contains code for Electonic Design Lab Spring 19 project **Persistence of Vision** by group D-13.
 
+<div align='center'>
+   <img src="img/1.png" alt="text-server" align='center' width="400"/>
+   <p style="text-align:center;">ESP32 Text Server</p>
+</div>
+
 ### Team Members
 - Mohd Safwan     - 17D0700470
 - Aditya Khanna   - 17D070036
