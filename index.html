@@ -1,0 +1,26 @@
+<!DOCTYPE HTML><html><head>
+  <title>ESP Input Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    function submitMessage() {
+      setTimeout(function(){ document.location.reload(false); }, 500);   
+    }
+  </script></head><body>
+  <div align='center'>
+  <style>html{width:100%; height:100%;}body{width:100%; height:100%; background-color:#DDD;}</style>
+  <p>
+    <h1>Electronic Design Lab</h1>
+    <h2>Group D-13</h2>
+  </p>
+  <form action="/get" target="hidden-form">
+    Current text: %inputString%
+    <br>
+    Enter new text below:
+    <br>
+    <input placeholder="text_placeholder" type="text" name="inputString">
+    <br>
+    <input type="submit" value="Display" onclick="submitMessage()">
+  </form>
+  </div>
+  <iframe style="display:none" name="hidden-form"></iframe>
+</body></html>

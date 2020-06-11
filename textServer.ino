@@ -1,12 +1,9 @@
 /*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-esp8266-input-data-html-form/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
+Electronic Design Lab, IIT Bombay
+Group D-13
+- Mohd Safwan
+- Manas Vashistha
+- Aditya Khanna
 *********/
 
 
@@ -23,7 +20,6 @@ const char* password = "12345678";
 
 const char* PARAM_STRING = "inputString";
 
-// HTML web page to handle 3 input fields (inputString, inputInt, inputFloat)
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html><head>
@@ -43,9 +39,9 @@ const char index_html[] PROGMEM = R"rawliteral(
   <form action="/get" target="hidden-form">
     Current text: %inputString%
     <br>
-    Enter text to display
+    Enter new text below:
     <br>
-    <input type="text" name="inputString">
+    <input placeholder="text_placeholder" type="text" name="inputString">
     <br>
     <input type="submit" value="Display" onclick="submitMessage()">
   </form>
@@ -86,9 +82,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
   }
 }
 
-// Replaces placeholder with stored values
 String processor(const String& var){
-  //Serial.println(var);
   if(var == "inputString"){
     return readFile(SPIFFS, "/inputString.txt");
   }
@@ -97,28 +91,23 @@ String processor(const String& var){
 
 void setup() {
   Serial.begin(115200);
-  // Initialize SPIFFS
     if(!SPIFFS.begin(true)){
       Serial.println("An Error has occurred while mounting SPIFFS");
       return;
     }
     
-//  WiFi.mode(WIFI_STA);
   WiFi.softAP(ssid, password);
   delay(2000);
   Serial.println();
   Serial.print("IP Address: ");
   Serial.println(WiFi.softAPIP());
 
-  // Send web page with input fields to client
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html, processor);
   });
 
-  // Send a GET request to <ESP_IP>/get?inputString=<inputMessage>
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputMessage;
-    // GET inputString value on <ESP_IP>/get?inputString=<inputMessage>
     if (request->hasParam(PARAM_STRING)) {
       inputMessage = request->getParam(PARAM_STRING)->value();
       writeFile(SPIFFS, "/inputString.txt", inputMessage.c_str());
@@ -134,7 +123,6 @@ void setup() {
 }
 
 void loop() {
-  // To access your stored values on inputString, inputInt, inputFloat
   String yourInputString = readFile(SPIFFS, "/inputString.txt");
   Serial.print("*** Your inputString: ");
   Serial.println(yourInputString);
